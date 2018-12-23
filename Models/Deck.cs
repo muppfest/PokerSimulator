@@ -68,7 +68,17 @@ namespace PokerSimulator.Models
 
         public void ShuffleDeck()
         {
-            throw new NotImplementedException();
+            Random random = new Random();
+            Card[] cards = Cards.ToArray();
+
+            for(int i = 0; i < cards.Count()-1; i++)
+            {
+                int r = random.Next(cards.Count() - 1 - i);
+                Card randomCard = cards[r];
+                cards[r] = cards[i];
+                cards[i] = randomCard;
+            }
+            Cards = cards.ToList();
         }
     }
 }

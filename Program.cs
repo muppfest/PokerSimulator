@@ -12,23 +12,15 @@ namespace PokerSimulator
         static void Main(string[] args)
         {
             Deck d = new Deck();
-            List<Card> holeCards = new List<Card>();
-            List<Card> communityCards = new List<Card>();
+            d.ShuffleDeck();
 
-            holeCards.Add(new Card('c', 6));
-            holeCards.Add(new Card('d', 6));
-            communityCards.Add(new Card('s', 12));
-            communityCards.Add(new Card('s', 7));
-            communityCards.Add(new Card('c', 7));
-            communityCards.Add(new Card('h', 6));
-            communityCards.Add(new Card('d', 14));
+            Hand h1 = new Hand(new List<Card>(){
+                d.DrawFromTopOfDeck(),
+                d.DrawFromTopOfDeck()
+            });
 
-            Hand h = new Hand(holeCards);
-            h.Draw(communityCards);
-
-            h.PrintHand();
-            Console.WriteLine(h.IsFullHouse().ToString());
-            h.PrintHand();
+            h1.PrintHand();
+            d.PrintDeck();
             Console.ReadKey();
         }
     }
