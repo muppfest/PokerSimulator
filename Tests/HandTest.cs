@@ -41,6 +41,7 @@ namespace PokerSimulator.Tests
         Hand straightFlush;
         Hand notStraightFlush;
         Hand royalStraightFlush;
+        Hand wheelStraightFlush;
 
         [SetUp]
         public void Init()
@@ -57,6 +58,20 @@ namespace PokerSimulator.Tests
                 new Card(SPADES,TEN),
                 new Card(CLUBS,ACE),
                 new Card(CLUBS,KING)
+            });
+
+            wheelStraightFlush = new Hand(new List<Card>()
+            {
+                new Card(CLUBS,ACE),
+                new Card(CLUBS,DEUCE)
+            });
+            wheelStraightFlush.Draw(new List<Card>()
+            {
+                new Card(CLUBS,THREE),
+                new Card(CLUBS,FOUR),
+                new Card(CLUBS,FIVE),
+                new Card(CLUBS,KING),
+                new Card(SPADES,ACE)
             });
 
             notStraightFlush = new Hand(new List<Card>()
@@ -82,7 +97,9 @@ namespace PokerSimulator.Tests
             {
                 new Card(CLUBS,FOUR),
                 new Card(CLUBS,FIVE),
-                new Card(CLUBS,SIX)
+                new Card(CLUBS,SIX),
+                new Card(SPADES,KING),
+                new Card(HEARTS, KING)
             });
 
             fullHouse = new Hand(new List<Card>()
@@ -94,7 +111,8 @@ namespace PokerSimulator.Tests
             {
                 new Card(SPADES,THREE),
                 new Card(HEARTS,THREE),
-                new Card(CLUBS,THREE)
+                new Card(CLUBS,THREE),
+                new Card(SPADES, ACE)
             });
 
             fourOfAKind = new Hand(new List<Card>()
@@ -106,7 +124,8 @@ namespace PokerSimulator.Tests
             {
                 new Card(HEARTS,DEUCE),
                 new Card(DIAMONDS,DEUCE),
-                new Card(CLUBS,THREE)
+                new Card(CLUBS,THREE),
+                new Card(SPADES, THREE)
             });
 
             onePair = new Hand(new List<Card>()
@@ -142,19 +161,22 @@ namespace PokerSimulator.Tests
             {
                 new Card(SPADES,THREE),
                 new Card(SPADES,SIX),
+                new Card(CLUBS, SIX),
                 new Card(SPADES,EIGHT)
             });
 
             straight = new Hand(new List<Card>()
             {
-                new Card(SPADES,ACE),
-                new Card(CLUBS,KING),
+                new Card(SPADES,JACK),
+                new Card(CLUBS,TEN),
             });
             straight.Draw(new List<Card>()
             {
-                new Card(CLUBS,QUEEN),
-                new Card(DIAMONDS,JACK),
-                new Card(HEARTS,TEN)
+                new Card(CLUBS,NINE),
+                new Card(DIAMONDS,SEVEN),
+                new Card(HEARTS,EIGHT),
+                new Card(DIAMONDS, TEN),
+                new Card(CLUBS, TEN)
             });
 
             wheel = new Hand(new List<Card>()
@@ -165,6 +187,8 @@ namespace PokerSimulator.Tests
             wheel.Draw(new List<Card>()
             {
                 new Card(SPADES,THREE),
+                new Card(HEARTS, THREE),
+                new Card(DIAMONDS, FOUR),
                 new Card(CLUBS,FOUR),
                 new Card(HEARTS,FIVE)
             });
@@ -240,6 +264,7 @@ namespace PokerSimulator.Tests
             Assert.True(straightFlush.IsStraightFlush());
             Assert.False(notStraightFlush.IsStraightFlush());
             Assert.True(royalStraightFlush.IsStraightFlush());
+            Assert.True(wheelStraightFlush.IsStraightFlush());
         }
 
         [Test]

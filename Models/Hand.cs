@@ -66,6 +66,9 @@ namespace PokerSimulator.Models
         public bool IsFlush()
         {
             List<Card> cards = GetAllCards();
+
+            if (cards.Count < 5) return false;
+
             cards = cards.OrderBy(o => o.Suit).ToList();
             for(int i = 0; i < cards.Count-4; i++)
             {
@@ -89,6 +92,9 @@ namespace PokerSimulator.Models
         public bool IsFullHouse()
         {
             List<Card> cards = GetAllCards();
+
+            if (cards.Count < 5) return false;
+
             cards = cards.OrderBy(o => o.Rank).ToList();
 
             for(int i = 0; i < cards.Count-4; i++)
@@ -99,6 +105,7 @@ namespace PokerSimulator.Models
             return false;
         }
 
+        // FIXA DENNA METOD
         public bool IsRoyalStraightFlush()
         {
             if (!IsStraightFlush()) return false;
@@ -126,55 +133,49 @@ namespace PokerSimulator.Models
             return true;
         }
 
+
+        // KOLLA UPP WHEEL SF
         public bool IsStraightFlush()
         {
             if (!IsFlush() || !IsStraight()) return false;
 
             List<Card> cards = GetAllCards();
-            cards = cards.OrderBy(o => o.Suit).ToList();
 
-            if (cards[0].Suit == cards[4].Suit)
+            cards = cards.OrderBy(o => o.Suit).ThenBy(o => o.Rank).ToList();
+
+            for(int i = 0; i < cards.Count-4; i++)
             {
-                List<Card> suitedCards = cards.GetRange(0, 5);
-                suitedCards = suitedCards.OrderBy(o => o.Rank).ToList();
+                if (cards[i].Rank == cards[i + 1].Rank - 1 && cards[i + 1].Rank == cards[i + 2].Rank - 1
+                    && cards[i + 2].Rank == cards[i + 3].Rank - 1 && cards[i + 3].Rank == cards[i + 4].Rank - 1 && cards[i].Suit == cards[i+4].Suit) return true;
 
-                if (cards[0].Rank == DEUCE && cards[1].Rank == THREE && cards[2].Rank == FOUR && cards[3].Rank == FIVE && cards[4].Rank == ACE) return true;
-
-                for (int i = 0; i < suitedCards.Count - 1; i++)
-                {
-                    if (suitedCards[i].Rank == suitedCards[i + 1].Rank) return false;
-                }
-            }
-            else
-            {
-                cards = cards.OrderByDescending(o => o.Suit).ToList();
-
-                List<Card> suitedCards = cards.GetRange(0, 5);
-                suitedCards = suitedCards.OrderBy(o => o.Rank).ToList();
-
-                if (cards[0].Rank == DEUCE && cards[1].Rank == THREE && cards[2].Rank == FOUR && cards[3].Rank == FIVE && cards[4].Rank == ACE) return true;
-
-                for (int i = 0; i < suitedCards.Count - 1; i++)
-                {
-                    if (suitedCards[i].Rank == suitedCards[i + 1].Rank) return false;
-                }
+                if (cards[i].Rank == DEUCE && cards[i+1].Rank == THREE && cards[i+2].Rank == FOUR && cards[i+3].Rank == FIVE && cards.Max(m => m.Rank) == ACE
+                    && cards[i].Suit == cards[i+4].Suit) return true;
             }
 
-            return true;
+            return false;
         }
 
         public bool IsStraight()
         {
             List<Card> cards = GetAllCards();
-            cards = cards.OrderBy(o => o.Rank).ToList();
 
-            for(int i = 0; i < cards.Count-1; i++)
+            if (cards.Count < 5) return false;
+
+            cards = cards.OrderBy(o => o.Rank).ToList();
+            Card[] temp = cards.ToArray();
+
+            for(int i = 0; i < temp.Count()-1; i++)
             {
-                if (cards[i].Rank == cards[i + 1].Rank) cards.RemoveAt(i+1);
+                if (temp[i].Rank == temp[i + 1].Rank) cards.RemoveAt(i);
+            }
+            
+            for(int i = 0; i < cards.Count-4; i++)
+            {
+                if (cards[i].Rank == cards[i + 1].Rank - 1 && cards[i + 1].Rank == cards[i + 2].Rank - 1 
+                    && cards[i + 2].Rank == cards[i + 3].Rank - 1 && cards[i + 3].Rank == cards[i+4].Rank-1) return true;
             }
 
-            if (cards[cards.Count - 1].Rank - cards[0].Rank == 4) return true;
-            if (cards[0].Rank == DEUCE && cards[1].Rank == THREE && cards[2].Rank == FOUR && cards[3].Rank == FIVE && cards[4].Rank == ACE) return true;
+            if (cards[0].Rank == DEUCE && cards[1].Rank == THREE && cards[2].Rank == FOUR && cards[3].Rank == FIVE && cards[cards.Count-1].Rank == ACE) return true;
 
             return false;
         }

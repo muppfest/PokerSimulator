@@ -13,6 +13,8 @@ namespace PokerSimulator
         {
             Deck d = new Deck();
             d.ShuffleDeck();
+            d.ShuffleDeck();
+            d.ShuffleDeck();
 
             Hand h1 = new Hand(new List<Card>(){
                 d.DrawFromTopOfDeck(),
