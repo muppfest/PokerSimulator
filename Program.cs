@@ -23,6 +23,18 @@ namespace PokerSimulator
 
             h1.PrintHand();
             d.PrintDeck();
+
+            Hand h2 = new Hand(new List<Card>
+            {
+                new Card('s',14),
+                new Card('c',14),
+                new Card('c',13),
+                new Card('h',10),
+                new Card('s',5)
+            });
+
+            Console.WriteLine(h2.GetRanking());
+
             Console.ReadKey();
         }
     }
