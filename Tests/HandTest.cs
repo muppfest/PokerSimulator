@@ -42,10 +42,25 @@ namespace PokerSimulator.Tests
         Hand notStraightFlush;
         Hand royalStraightFlush;
         Hand wheelStraightFlush;
+        Hand notRoyalStraightFlush;
 
         [SetUp]
         public void Init()
         {
+            notRoyalStraightFlush = new Hand(new List<Card>()
+            {
+                new Card(SPADES,ACE),
+                new Card(SPADES,KING)
+            });
+            notRoyalStraightFlush.Draw(new List<Card>()
+            {
+                new Card(SPADES,QUEEN),
+                new Card(SPADES,JACK),
+                new Card(CLUBS,TEN),
+                new Card(CLUBS,ACE),
+                new Card(SPADES,NINE)
+            });
+
             royalStraightFlush = new Hand(new List<Card>()
             {
                 new Card(SPADES,ACE),
@@ -272,6 +287,7 @@ namespace PokerSimulator.Tests
         {
             Assert.True(royalStraightFlush.IsRoyalStraightFlush());
             Assert.False(straightFlush.IsRoyalStraightFlush());
+            Assert.False(notRoyalStraightFlush.IsRoyalStraightFlush());
         }
 
         [Test]

@@ -108,29 +108,16 @@ namespace PokerSimulator.Models
         // FIXA DENNA METOD
         public bool IsRoyalStraightFlush()
         {
-            if (!IsStraightFlush()) return false;
-
             List<Card> cards = GetAllCards();
-            cards = cards.OrderBy(o => o.Suit).ToList();
+            cards = cards.OrderBy(o => o.Suit).ThenBy(o => o.Rank).ToList();
 
-            if(cards[0].Suit == cards[4].Suit)
+            for(int i = 0; i < cards.Count-4; i++)
             {
-                List<Card> suitedCards = cards.GetRange(0, 5);
-                suitedCards = suitedCards.OrderBy(o => o.Rank).ToList();
-
-                if (suitedCards[4].Rank != ACE) return false;
-            }
-            else
-            {
-                cards = cards.OrderByDescending(o => o.Suit).ToList();
-
-                List<Card> suitedCards = cards.GetRange(0, 5);
-                suitedCards = suitedCards.OrderBy(o => o.Rank).ToList();
-
-                if (suitedCards[4].Rank != ACE) return false;
+                if (cards[i].Rank == TEN && cards[i + 1].Rank == JACK
+                    && cards[i + 2].Rank == QUEEN && cards[i + 3].Rank == KING && cards[i+4].Rank == ACE && cards[i].Suit == cards[i+4].Suit) return true;
             }
 
-            return true;
+            return false;
         }
 
 
@@ -140,6 +127,7 @@ namespace PokerSimulator.Models
             if (!IsFlush() || !IsStraight()) return false;
 
             List<Card> cards = GetAllCards();
+            List<Card> aces = cards.Where(w => w.Rank == ACE).ToList();
 
             cards = cards.OrderBy(o => o.Suit).ThenBy(o => o.Rank).ToList();
 
@@ -148,8 +136,8 @@ namespace PokerSimulator.Models
                 if (cards[i].Rank == cards[i + 1].Rank - 1 && cards[i + 1].Rank == cards[i + 2].Rank - 1
                     && cards[i + 2].Rank == cards[i + 3].Rank - 1 && cards[i + 3].Rank == cards[i + 4].Rank - 1 && cards[i].Suit == cards[i+4].Suit) return true;
 
-                if (cards[i].Rank == DEUCE && cards[i+1].Rank == THREE && cards[i+2].Rank == FOUR && cards[i+3].Rank == FIVE && cards.Max(m => m.Rank) == ACE
-                    && cards[i].Suit == cards[i+4].Suit) return true;
+                if (cards[i].Rank == DEUCE && cards[i+1].Rank == THREE && cards[i+2].Rank == FOUR && cards[i+3].Rank == FIVE && cards[i].Suit == cards[i+3].Suit 
+                    && aces.Where(w => w.Suit == cards[i].Suit).Count() == 1) return true;
             }
 
             return false;
