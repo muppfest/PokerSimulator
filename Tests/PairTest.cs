@@ -68,7 +68,6 @@ namespace PokerSimulator.Tests
         [Test]
         public void TestKicker()
         {
-            Assert.True(PairOfAcesKingKicker.GetRanking() > PairOfAcesQueenKicker.GetRanking());
             Assert.True(PairOfAcesKingKicker.CompareTo(PairOfAcesQueenKicker) > 0);
         }
     }

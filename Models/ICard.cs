@@ -8,6 +8,8 @@ namespace PokerSimulator.Models
 {
     interface ICard : IComparable<ICard>
     {
+        char GetSuit();
+        int GetRank();
         void FlipCard();
         void PrintCard();
     }

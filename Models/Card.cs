@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PokerSimulator.Models
 {
-    class Card : ICard
+    class Card : ICard, IComparable<ICard>
     {
         private const char CLUBS = 'c';
         private const char SPADES = 's';
@@ -113,16 +113,21 @@ namespace PokerSimulator.Models
         }
 
 
-        public int CompareTo(Card card)
+        public int CompareTo(ICard card)
         {
-            if (Rank > card.Rank) return 1;
-            else if (Rank < card.Rank) return -1;
+            if (Rank > card.GetRank()) return 1;
+            else if (Rank < card.GetRank()) return -1;
             else return 0;
         }
 
-        public int CompareTo(ICard other)
+        public char GetSuit()
         {
-            throw new NotImplementedException();
+            return Suit;
+        }
+
+        public int GetRank()
+        {
+            return Rank;
         }
     }
 }

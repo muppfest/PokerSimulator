@@ -9,6 +9,7 @@ namespace PokerSimulator.Models
     interface IHand<ICard> : IComparable<IHand<ICard>>
     {
         double GetRanking();
+        List<ICard> GetShowdownHand();
         void Draw(ICard card);
         void Draw(List<ICard> cards);
         bool IsPair();
@@ -21,6 +22,6 @@ namespace PokerSimulator.Models
         bool IsStraightFlush();
         bool IsRoyalStraightFlush();
         void PrintHand();
-        List<Card> Fold();
+        List<ICard> Fold();
     }
 }
