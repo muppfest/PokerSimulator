@@ -112,6 +112,11 @@ namespace PokerSimulator.Models
             return RankToString() + " of " + SuitToString();
         }
 
+        public bool Equals(ICard card)
+        {
+            if (Suit == card.GetSuit() && Rank == card.GetRank()) return true;
+            return false;
+        }
 
         public int CompareTo(ICard card)
         {

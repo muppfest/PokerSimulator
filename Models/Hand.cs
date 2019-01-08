@@ -276,12 +276,11 @@ namespace PokerSimulator.Models
 
             if (cards.Count < NUMBER_OF_CARDS_IN_SHOWDOWN) return false;
 
-            cards = cards.OrderBy(o => o.Rank).ToList();
-            Card[] temp = cards.ToArray();
+            cards = cards.OrderBy(o => o.Rank).ToList();            
 
-            for(int i = 0; i < temp.Count()-1; i++)
+            for(int i = 0; i < cards.Count()-1; i++)
             {
-                if (temp[i].Rank == temp[i + 1].Rank) cards.RemoveAt(i);
+                if (cards[i].Rank == cards[i + 1].Rank) cards.RemoveAt(i);
             }
             
             for(int i = 0; i < cards.Count-4; i++)
@@ -370,7 +369,7 @@ namespace PokerSimulator.Models
         {
             List<Card> cards = GetAllCards();
             List<Card> showdown = new List<Card>();
-            cards = cards.OrderBy(o => o.Rank).ToList();
+            cards = cards.OrderByDescending(o => o.Rank).ToList();
 
             for(int i = 0; i < cards.Count-1; i++)
             {
@@ -379,7 +378,6 @@ namespace PokerSimulator.Models
                     showdown.Add(cards[i]);
                     showdown.Add(cards[i + 1]);
                     cards.RemoveRange(i, 2);
-                    cards = cards.OrderByDescending(o => o.Rank).ToList();
                     showdown.AddRange(cards.GetRange(0,3));
                     ShowdownCards = showdown;
                     return true;
@@ -390,7 +388,7 @@ namespace PokerSimulator.Models
 
         public void PrintHand()
         {
-            foreach (var card in HoleCards)
+            foreach (var card in ShowdownCards)
             {
                 card.PrintCard();
             }
@@ -425,6 +423,11 @@ namespace PokerSimulator.Models
         public List<Card> GetShowdownHand()
         {
             return ShowdownCards;
+        }
+
+        public List<Card> GetHand()
+        {
+            return HoleCards;
         }
     }
 }

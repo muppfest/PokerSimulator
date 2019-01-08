@@ -183,7 +183,7 @@ namespace PokerSimulator.Tests
             straight = new Hand(new List<Card>()
             {
                 new Card(SPADES,JACK),
-                new Card(CLUBS,TEN),
+                new Card(HEARTS,TEN),
             });
             straight.Draw(new List<Card>()
             {

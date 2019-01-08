@@ -10,7 +10,14 @@ namespace PokerSimulator.Models
     {
         void ShuffleDeck();
         ICard DrawFromTopOfDeck();
+        ICard DrawRandomCard();
+        ICard DrawFromIndex(int index);
+        ICard DrawCard(ICard card);
+        ICard DrawCard(int rank, char suit);
+        void RemoveCard(ICard card);
+        void InsertCard(ICard card);
         void NewDeck();
         void PrintDeck();
+        int NumberOfCards();
     }
 }

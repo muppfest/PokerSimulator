@@ -56,10 +56,13 @@
     <Compile Include="Models\ICard.cs" />
     <Compile Include="Models\IDeck.cs" />
     <Compile Include="Models\IHand.cs" />
+    <Compile Include="Models\Simulator.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tests\HandTest.cs" />
     <Compile Include="Tests\PairTest.cs" />
+    <Compile Include="Tests\DeckTest.cs" />
+    <Compile Include="Tests\ThreeOfAKindTest.cs" />
     <Compile Include="Tests\TwoPairTest.cs" />
   </ItemGroup>
   <ItemGroup>

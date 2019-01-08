@@ -9,6 +9,7 @@ namespace PokerSimulator.Models
     interface IHand<ICard> : IComparable<IHand<ICard>>
     {
         double GetRanking();
+        List<ICard> GetHand();
         List<ICard> GetShowdownHand();
         void Draw(ICard card);
         void Draw(List<ICard> cards);

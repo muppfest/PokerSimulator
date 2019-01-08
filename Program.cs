@@ -11,30 +11,24 @@ namespace PokerSimulator
     {
         static void Main(string[] args)
         {
-            Deck d = new Deck();
-            d.ShuffleDeck();
-            d.ShuffleDeck();
-            d.ShuffleDeck();
-
-            Hand h1 = new Hand(new List<Card>(){
-                d.DrawFromTopOfDeck(),
-                d.DrawFromTopOfDeck()
-            });
-
-            h1.PrintHand();
-            d.PrintDeck();
-
-            Hand h2 = new Hand(new List<Card>
+            Hand h1 = new Hand(new List<Card>()
             {
                 new Card('s',14),
-                new Card('c',14),
-                new Card('c',13),
-                new Card('h',10),
-                new Card('s',5)
+                new Card('c',14)
+            });
+            Hand h2 = new Hand(new List<Card>()
+            {
+                new Card('s',13),
+                new Card('c',13)
             });
 
-            Console.WriteLine(h2.GetRanking());
+            List<Hand> hands = new List<Hand>();
+            hands.Add(h1);
+            hands.Add(h2);
 
+            Simulator simulator = new Simulator(hands);
+            simulator.Simulate(500);
+            simulator.PrintResult();
             Console.ReadKey();
         }
     }

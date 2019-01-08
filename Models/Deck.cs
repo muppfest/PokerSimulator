@@ -27,7 +27,7 @@ namespace PokerSimulator.Models
         private const int KING = 13;
         private const int ACE = 14;
 
-        private List<Card> Cards { get; set; }
+        public List<Card> Cards { get; set; }
 
         public Deck()
         {
@@ -61,7 +61,8 @@ namespace PokerSimulator.Models
 
         public void PrintDeck()
         {
-            foreach(var card in Cards) {
+            foreach (var card in Cards)
+            {
                 card.PrintCard();
             }
         }
@@ -71,7 +72,7 @@ namespace PokerSimulator.Models
             Random random = new Random();
             Card[] cards = Cards.ToArray();
 
-            for(int i = 0; i < cards.Count()-1; i++)
+            for (int i = 0; i < cards.Count() - 1; i++)
             {
                 int r = random.Next(cards.Count() - 1 - i);
                 Card randomCard = cards[r];
@@ -79,6 +80,50 @@ namespace PokerSimulator.Models
                 cards[i] = randomCard;
             }
             Cards = cards.ToList();
+        }
+
+        public Card DrawFromIndex(int index)
+        {
+            Card card = Cards.ElementAt(index);
+            Cards.RemoveAt(index);
+            return card;
+        }
+
+        public void RemoveCard(Card card)
+        {
+            Cards.Remove(card);
+        }
+
+        public void InsertCard(Card card)
+        {
+            Cards.Insert(Cards.Count - 1, card);
+        }
+
+        public Card DrawCard(Card card)
+        {
+            RemoveCard(card);
+            return card;
+        }
+
+        public Card DrawCard(int rank, char suit)
+        {
+            Card card = Cards.Where(w => w.Rank == rank && w.Suit == suit).SingleOrDefault();
+            RemoveCard(card);
+            return card;
+        }
+
+        public Card DrawRandomCard()
+        {
+            Random random = new Random();
+            int r = random.Next(Cards.Count() - 1);
+            Card randomCard = Cards.ElementAt(r);
+            Cards.RemoveAt(r);
+            return randomCard;
+        }
+
+        public int NumberOfCards()
+        {
+            return Cards.Count;
         }
     }
 }
