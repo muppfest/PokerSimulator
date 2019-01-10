@@ -10,7 +10,7 @@ namespace PokerSimulator.Models
     {
         char GetSuit();
         int GetRank();
-        void FlipCard();
-        void PrintCard();
+        void Flip();
+        void Print();
     }
 }

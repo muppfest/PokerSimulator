@@ -199,9 +199,10 @@ namespace PokerSimulator.Models
 
             if (cards.Count < NUMBER_OF_CARDS_IN_SHOWDOWN) return false;
 
+            cards = cards.GroupBy(g => g.Rank).Where(w => w.Count() > 1).SelectMany(s => s).ToList();
             cards = cards.OrderBy(o => o.Rank).ToList();
 
-            for(int i = 0; i < cards.Count-4; i++)
+            for (int i = 0; i < cards.Count-4; i++)
             {
                 if (cards[i].Rank == cards[i + 2].Rank && cards[i + 3].Rank == cards[i + 4].Rank)
                 {
@@ -220,9 +221,10 @@ namespace PokerSimulator.Models
         // FIXA DENNA METOD
         public bool IsRoyalStraightFlush()
         {
-            if (!IsStraightFlush()) return false;
-
             List<Card> cards = GetAllCards();
+
+            if (cards.Count < NUMBER_OF_CARDS_IN_SHOWDOWN) return false;
+
             cards = cards.OrderBy(o => o.Suit).ThenBy(o => o.Rank).ToList();
 
             for(int i = 0; i < cards.Count-4; i++)
@@ -242,9 +244,10 @@ namespace PokerSimulator.Models
         // KOLLA UPP WHEEL SF
         public bool IsStraightFlush()
         {
-            if (!IsFlush() || !IsStraight()) return false;
-
             List<Card> cards = GetAllCards();
+
+            if (cards.Count < NUMBER_OF_CARDS_IN_SHOWDOWN) return false;
+
             List<Card> aces = cards.Where(w => w.Rank == ACE).ToList();
 
             cards = cards.OrderBy(o => o.Suit).ThenBy(o => o.Rank).ToList();
@@ -276,27 +279,32 @@ namespace PokerSimulator.Models
 
             if (cards.Count < NUMBER_OF_CARDS_IN_SHOWDOWN) return false;
 
-            cards = cards.OrderBy(o => o.Rank).ToList();            
+            cards = cards.OrderBy(o => o.Rank).ToList();
+            List<Card> distinctCards = new List<Card>();
 
-            for(int i = 0; i < cards.Count()-1; i++)
+            for(int i = 0; i < cards.Count-1; i++)
             {
-                if (cards[i].Rank == cards[i + 1].Rank) cards.RemoveAt(i);
+                if (cards[i].Rank != cards[i + 1].Rank) distinctCards.Add(cards[i]);
             }
-            
-            for(int i = 0; i < cards.Count-4; i++)
+
+            if (cards[cards.Count - 1].Rank != cards[cards.Count - 2].Rank) distinctCards.Add(cards[cards.Count - 1]);
+
+            if (distinctCards.Count < NUMBER_OF_CARDS_IN_SHOWDOWN) return false;
+
+            for(int i = 0; i < distinctCards.Count-4; i++)
             {
-                if (cards[i].Rank == cards[i + 1].Rank - 1 && cards[i + 1].Rank == cards[i + 2].Rank - 1 
-                    && cards[i + 2].Rank == cards[i + 3].Rank - 1 && cards[i + 3].Rank == cards[i+4].Rank-1)
+                if (distinctCards[i].Rank == distinctCards[i + 1].Rank - 1 && distinctCards[i + 1].Rank == distinctCards[i + 2].Rank - 1 
+                    && distinctCards[i + 2].Rank == distinctCards[i + 3].Rank - 1 && distinctCards[i + 3].Rank == distinctCards[i + 4].Rank - 1)
                 {
-                    ShowdownCards = cards.GetRange(i, NUMBER_OF_CARDS_IN_SHOWDOWN);
+                    ShowdownCards = distinctCards.GetRange(i, NUMBER_OF_CARDS_IN_SHOWDOWN);
                     return true;
                 }
             }
 
-            if (cards[0].Rank == DEUCE && cards[1].Rank == THREE && cards[2].Rank == FOUR && cards[3].Rank == FIVE && cards[cards.Count-1].Rank == ACE)
+            if (distinctCards[0].Rank == DEUCE && distinctCards[1].Rank == THREE && distinctCards[2].Rank == FOUR && distinctCards[3].Rank == FIVE && distinctCards[distinctCards.Count-1].Rank == ACE)
             {
-                ShowdownCards = cards.GetRange(0, 4);
-                ShowdownCards.Add(cards[cards.Count-1]);
+                ShowdownCards = distinctCards.GetRange(0, 4);
+                ShowdownCards.Add(cards[distinctCards.Count-1]);
                 return true;
             }
 
@@ -353,13 +361,14 @@ namespace PokerSimulator.Models
             } else if (pairCounter == 3)
             {
                 showdown = showdown.OrderBy(o => o.Rank).ToList();
-                showdown.RemoveRange(0, 2);
                 foreach (var card in showdown)
                 {
                     cards.Remove(card);
                 }
+                showdown.RemoveRange(0, 2);
                 showdown.Add(cards[0]);
                 ShowdownCards = showdown;
+                return true;
             }
 
             return false;
@@ -386,11 +395,11 @@ namespace PokerSimulator.Models
             return false;
         }
 
-        public void PrintHand()
+        public void Print()
         {
             foreach (var card in ShowdownCards)
             {
-                card.PrintCard();
+                card.Print();
             }
         }
 

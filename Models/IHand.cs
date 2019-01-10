@@ -22,7 +22,7 @@ namespace PokerSimulator.Models
         bool IsFourOfAKind();
         bool IsStraightFlush();
         bool IsRoyalStraightFlush();
-        void PrintHand();
+        void Print();
         List<ICard> Fold();
     }
 }

@@ -68,11 +68,11 @@ namespace PokerSimulator.Tests
             });
             royalStraightFlush.Draw(new List<Card>()
             {
+                new Card(CLUBS,KING),
                 new Card(SPADES,QUEEN),
                 new Card(SPADES,JACK),
-                new Card(SPADES,TEN),
                 new Card(CLUBS,ACE),
-                new Card(CLUBS,KING)
+                new Card(SPADES,TEN)
             });
 
             wheelStraightFlush = new Hand(new List<Card>()

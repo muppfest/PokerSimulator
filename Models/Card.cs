@@ -38,7 +38,7 @@ namespace PokerSimulator.Models
             Rank = rank;
         }
 
-        public void FlipCard()
+        public void Flip()
         {
             if(IsFaceUp)
             {
@@ -101,7 +101,7 @@ namespace PokerSimulator.Models
             }
         }
 
-        public void PrintCard()
+        public void Print()
         {
             Console.WriteLine(ToString());
         }

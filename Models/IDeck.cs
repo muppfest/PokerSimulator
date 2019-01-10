@@ -8,16 +8,17 @@ namespace PokerSimulator.Models
 {
     interface IDeck<ICard>
     {
-        void ShuffleDeck();
-        ICard DrawFromTopOfDeck();
-        ICard DrawRandomCard();
+        void Shuffle();
+        ICard DrawFromTop();
+        ICard DrawRandom();
         ICard DrawFromIndex(int index);
-        ICard DrawCard(ICard card);
-        ICard DrawCard(int rank, char suit);
-        void RemoveCard(ICard card);
-        void InsertCard(ICard card);
+        ICard Draw(ICard card);
+        ICard Draw(int rank, char suit);
+        void Remove(ICard card);
+        void Remove(int index);
+        void Insert(ICard card);
         void NewDeck();
         void PrintDeck();
-        int NumberOfCards();
+        int Size();
     }
 }

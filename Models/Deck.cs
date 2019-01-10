@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace PokerSimulator.Models
@@ -34,10 +35,10 @@ namespace PokerSimulator.Models
             NewDeck();
         }
 
-        public Card DrawFromTopOfDeck()
+        public Card DrawFromTop()
         {
-            Card topCard = Cards.Last();
-            Cards.RemoveAt(Cards.Count - 1);
+            Card topCard = Cards.ElementAt(Cards.Count - 1);
+            Remove(Cards.Count - 1);
             return topCard;
         }
 
@@ -63,18 +64,17 @@ namespace PokerSimulator.Models
         {
             foreach (var card in Cards)
             {
-                card.PrintCard();
+                card.Print();
             }
         }
 
-        public void ShuffleDeck()
+        public void Shuffle()
         {
-            Random random = new Random();
             Card[] cards = Cards.ToArray();
 
             for (int i = 0; i < cards.Count() - 1; i++)
             {
-                int r = random.Next(cards.Count() - 1 - i);
+                int r = StandardLockSingleRandom.Next(0, cards.Count() - i);
                 Card randomCard = cards[r];
                 cards[r] = cards[i];
                 cards[i] = randomCard;
@@ -85,43 +85,47 @@ namespace PokerSimulator.Models
         public Card DrawFromIndex(int index)
         {
             Card card = Cards.ElementAt(index);
-            Cards.RemoveAt(index);
+            Remove(index);
             return card;
         }
 
-        public void RemoveCard(Card card)
+        public void Remove(Card card)
         {
             Cards.Remove(card);
         }
 
-        public void InsertCard(Card card)
+        public void Remove(int index)
+        {
+            Cards.RemoveAt(index);
+        }
+
+        public void Insert(Card card)
         {
             Cards.Insert(Cards.Count - 1, card);
         }
 
-        public Card DrawCard(Card card)
+        public Card Draw(Card card)
         {
-            RemoveCard(card);
+            Remove(card);
             return card;
         }
 
-        public Card DrawCard(int rank, char suit)
+        public Card Draw(int rank, char suit)
         {
             Card card = Cards.Where(w => w.Rank == rank && w.Suit == suit).SingleOrDefault();
-            RemoveCard(card);
+            Remove(card);
             return card;
         }
 
-        public Card DrawRandomCard()
+        public Card DrawRandom()
         {
-            Random random = new Random();
-            int r = random.Next(Cards.Count() - 1);
+            int r = StandardLockSingleRandom.Next(0, Cards.Count());
             Card randomCard = Cards.ElementAt(r);
-            Cards.RemoveAt(r);
+            Remove(r);
             return randomCard;
         }
 
-        public int NumberOfCards()
+        public int Size()
         {
             return Cards.Count;
         }

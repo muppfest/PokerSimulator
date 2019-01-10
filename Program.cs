@@ -11,24 +11,9 @@ namespace PokerSimulator
     {
         static void Main(string[] args)
         {
-            Hand h1 = new Hand(new List<Card>()
-            {
-                new Card('s',14),
-                new Card('c',14)
-            });
-            Hand h2 = new Hand(new List<Card>()
-            {
-                new Card('s',13),
-                new Card('c',13)
-            });
-
-            List<Hand> hands = new List<Hand>();
-            hands.Add(h1);
-            hands.Add(h2);
-
-            Simulator simulator = new Simulator(hands);
-            simulator.Simulate(500);
-            simulator.PrintResult();
+            Simulator s = new Simulator();
+            s.Simulate(1029112);
+            Console.WriteLine("\nPress any key to close program.");
             Console.ReadKey();
         }
     }
